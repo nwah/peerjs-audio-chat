@@ -1,0 +1,45 @@
+body {
+  font-family: monospace;
+  font-size: 16px;
+  line-height: 150%;
+}
+
+a { color: blue; }
+
+.wrapper {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.overview {
+  padding-top: 10%;
+}
+
+#display {
+  padding-top: 24px;
+}
+
+#display > div {
+  padding-left: 30px;
+  text-indent: -30px;
+}
+
+#display > input {
+  display: block;
+  width: 90%;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 15px 0;
+  background: #fff;
+}
+
+footer p {
+  max-width: 600px;
+  margin: 0 auto;
+}

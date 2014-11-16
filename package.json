@@ -1,0 +1,14 @@
+{
+  "name": "peerjs-audio-chat",
+  "version": "0.0.0",
+  "description": "Audio chat using WebRTC and PeerJS",
+  "main": "index.js",
+  "dependencies": {
+    "express": "~4.10.2",
+    "ejs": "~1.0.0",
+    "uuid": "~2.0.1"
+  },
+  "devDependencies": {},
+  "author": "Noah Burney",
+  "license": "BSD-2-Clause"
+}
