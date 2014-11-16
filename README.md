@@ -16,33 +16,33 @@ After allowing microphone access, you have access to a [`LocalMediaStream`](http
 
 Here's what we're doing:
 ```javascript
-	// handle browser prefixes
-	navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
-		
-	// Get access to microphone
-	navigator.getUserMedia (
-		// Only request audio
-		{video: false, audio: true},
-			
-		// Success callback
-		function success(localAudioStream) {
-			// Do something with audio stream
-		},
-		// Failure callback
-	    function error(err) {
-      		// handle error
-		}
-	);
+// handle browser prefixes
+navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
+  
+// Get access to microphone
+navigator.getUserMedia (
+  // Only request audio
+  {video: false, audio: true},
+    
+  // Success callback
+  function success(localAudioStream) {
+    // Do something with audio stream
+  },
+  // Failure callback
+  function error(err) {
+    // handle error
+  }
+);
 ```
 
 #### 2. Connect to PeerJS
 [PeerJS](http://peerjs.com) takes care of the hairier parts of using WebRTC for us (STUN, TURN, signaling). To connect, you need to include the PeerJS javascript, then make a new instance of [`Peer`](http://peerjs.com/docs/#api):
 
 ```javascript
-	var me = new Peer({key: API_KEY});
-  me.on('open', function() {
-    console.log('My PeerJS ID is:', me.id);
-  });
+var me = new Peer({key: API_KEY});
+me.on('open', function() {
+  console.log('My PeerJS ID is:', me.id);
+});
 ```
 
 The `open` event will fire once you're connected.
@@ -55,25 +55,25 @@ When other people open the call page, they'll have your PeerJS ID (and maybe oth
 Each `Peer` instance has a `.call()` method that takes a peer's ID, your `LocalMediaStream` as arguments and returns a PeerJS `MediaConnection` object.
 
 ```javascript
-	var outgoing = me.call(peerId, myAudioStream);
+var outgoing = me.call(peerId, myAudioStream);
 ```
 
 This `MediaConnection` object will fire a `stream` event when the other person answers your call with their own audio stream.
 
 ```javascript
-	outgoing.on('stream', function(stream) {
-    // Do something with this audio stream
-  });
+outgoing.on('stream', function(stream) {
+  // Do something with this audio stream
+});
 ```
 
 When receiving a `.call()`, your `Peer` instance will fire a `call` event, which gets passes an instance of a PeerJS `MediaConnection`. You then listen for the `stream` event on this object to get incoming audio stream:
 
 ```javascript
-	me.on('call', function(incoming) {
-		incoming.on('stream', function(stream) {
-			// Do something with this audio stream
-    });
+me.on('call', function(incoming) {
+  incoming.on('stream', function(stream) {
+    // Do something with this audio stream
   });
+});
 ```
 
 Once all this happens, both parties should have an audio stream from the other person.
@@ -82,10 +82,10 @@ Once all this happens, both parties should have an audio stream from the other p
 There are two ways to play an audio stream: the Web Audio API, and the HTML5 `<audio>` element. Firefox supports both, but Chrome currently [doesn't support](https://code.google.com/p/chromium/issues/detail?can=2&q=121673&colspec=ID%20Pri%20M%20Iteration%20ReleaseBlock%20Cr%20Status%20Owner%20Summary%20OS%20Modified&id=121673) playing a WebRTC stream using the Web Audio API, so we're using the `<audio>` element here:
 
 ```javascript
-	function playStream(stream) {
- 		var audio = $('<audio autoplay />').appendTo('body');
-  	audio[0].src = (URL || webkitURL || mozURL).createObjectURL(stream);
-	}
+function playStream(stream) {
+  var audio = $('<audio autoplay />').appendTo('body');
+  audio[0].src = (URL || webkitURL || mozURL).createObjectURL(stream);
+}
 ```
 
 We use the new `URL.createObjectURL()` method to get a URL that the `<audio>` element can stream.
@@ -102,7 +102,9 @@ Once you have an API key, copy (or rename) `config.js.example` to `config.js`, t
 
 Now just install dependencies and run the server:
 
-    $ npm install
-    $ node .
+```
+$ npm install
+$ node .
+```
 
 Open `http://localhost:6767` in your browser and you should be able to make calls.
