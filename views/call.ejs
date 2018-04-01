@@ -6,8 +6,16 @@
   <link rel="stylesheet" type="text/css" href="/style.css">
 </head>
 <body>
+  <button id='mute'>Mute</button>
+
+  <button id="start">Start Call</button>
+
+  <canvas width="520" height="100" id="canvas"></canvas>
+
   <div class="wrapper">
-    <div id="display"></div>
+    <div id="display">
+      
+    </div>
   </div>
 
   <footer>
@@ -24,7 +32,9 @@
   </script>
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-  <script src="http://cdn.peerjs.com/0.3/peer.js"></script>
+  <script src="/peer.min.js"></script>
+  <script src="/binary.js"></script>
+  <script src="/re-sampler.js"></script>
   <script src="/app.js"></script>
 </body>
 </html>
