@@ -2,29 +2,54 @@
 <html>
 <head>
   <title>WebRTC/PeerJS Audio Call</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="/normalize.css">
   <link rel="stylesheet" type="text/css" href="/style.css">
 </head>
 <body>
-  <button id='mute'>Mute</button>
-
-  <button id="start">Start Call</button>
-
-  <canvas width="520" height="100" id="canvas"></canvas>
-
-  <div class="wrapper">
-    <div id="display">
-      
+    <div class="container">
+        <div class="page-header">
+            <h1><span class="glyphicon glyphicon-record"></span> QAGuild Audio Streamer <small>realtime to node</small></h1>
+        </div>
+        <div class="row">
+          <div class="col-md-8">
+            <button id="start" class="btn btn-success">Join Call</button>
+            <button id='start-recording' class="btn btn-warning">Start recording</button>
+            <button id='stop-recording' class="btn btn-primary">Stop recording</button>
+          </div>  
+        </div>
+        <div class="row">
+            <div class="col-md-10">
+                <div id="mute-icon">YOU ARE ON MUTE!!! PLEASE UNMUTE TO SPEAK</div>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-md-10">
+            <canvas width="520" height="100" id="canvas"></canvas>
+          </div>  
+        </div>
+        <div class="row">
+          <div class="col-md-10">
+            <button class='mute btn btn-danger'>Mute</button>
+          </div>  
+        </div>
+        <div class="row">
+          <div class="col-md-8"></div>
+          <div class="col-md-4">
+            <div class="wrapper">
+                <div id="display">
+                  
+                </div>
+            </div>
+          </div>
+        </div>      
     </div>
-  </div>
+  
 
   <footer>
-    <div class="wrapper">
-      <a href="/new">Start another call</a>
-    </div>
+  
   </footer>
-
-  <a href="https://github.com/nwah/peerjs-audio-chat"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
   
   <script type="text/javascript">
     window.API_KEY = "<%= apiKey %>";
@@ -32,6 +57,7 @@
   </script>
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <script src="/peer.min.js"></script>
   <script src="/binary.js"></script>
   <script src="/re-sampler.js"></script>

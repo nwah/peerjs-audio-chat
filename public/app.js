@@ -5,7 +5,7 @@ navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia
 var me = {};
 var myStream;
 var peers = {};
-var muted = false;
+
 const worker = new Worker('worker/resampler-worker.js');
 //init();
 
@@ -145,7 +145,7 @@ function playStream(stream) {
 
 // Get access to the microphone
 function getLocalAudioStream(cb) {
-  display('Trying to access your microphone. Please click "Allow".');
+  display('Trying to access your microphone.');
 
   navigator.getUserMedia (
     {video: false, audio: true},
@@ -154,16 +154,7 @@ function getLocalAudioStream(cb) {
       display('Microphone is open.');
       
       myStream = audioStream;
-
-      context = new AudioContext();
-            
-      var source = context.createMediaStreamSource(myStream);
-      var bufferSize = 0; // let implementation decide
-      recorder = context.createScriptProcessor(bufferSize, 1, 1);
-      recorder.onaudioprocess = onAudio;
-      source.connect(recorder);
-      recorder.connect(context.destination);
-
+      
       if (cb) cb(null, myStream);
     },
 
@@ -247,7 +238,8 @@ $(document).ready(function() {
   
   var bStream;
   var recorder;
-
+  var recordedStream;
+  
   worker.postMessage({ cmd:"init", from:contextSampleRate, to: resampleRate });
 
   worker.addEventListener('message', function (e) {
@@ -256,25 +248,67 @@ $(document).ready(function() {
   }, false);
 
 
-  $('#mute').click(function(){
+  $('.mute').click(function(){
     console.log('mute');
 
-    if(!muted){
-      myStream.getAudioTracks()[0].enabled = true;
-      muted = true;
-    } else{
+    if(this.id == ''){
       myStream.getAudioTracks()[0].enabled = false;
-      muted = false;
+      recordedStream.getAudioTracks()[0].enabled = false;
+      
+      this.id = "activated";
+      this.innerHTML = "Unmute";
+
+      $("#mute-icon").css("visibility", "visible");
+    } else{
+      myStream.getAudioTracks()[0].enabled = true;
+      recordedStream.getAudioTracks()[0].enabled = true;
+      
+      this.id = "";
+      this.innerHTML = "Mute";
+
+      $("#mute-icon").css("visibility", "hidden");
     }
   })
 
   $('#start').click(function(){
-    client = new BinaryClient(`wss://${location.hostname}:8080`);
-    client.on('open', function () {
-        bStream = client.createStream({sampleRate: resampleRate, userName: "admin" });
-    });
-
     init();
   });
+
+  $("#start-recording").click(function(){
+    client = new BinaryClient(`wss://${location.hostname}:8080`);
+    client.on('open', function () {
+        bStream = client.createStream({ sampleRate: resampleRate, userName: "admin" });
+    });
+
+    navigator.getUserMedia (
+      {video: false, audio: true},
+
+      function success(audioStream) {
+        context = new AudioContext();
+        
+        recordedStream = audioStream;
+
+        var source = context.createMediaStreamSource(recordedStream);
+        var bufferSize = 0; // let implementation decide
+        recorder = context.createScriptProcessor(bufferSize, 1, 1);
+        recorder.onaudioprocess = onAudio;
+        source.connect(recorder);
+        recorder.connect(context.destination);
+      },
+
+      function error(err) {
+        display('Couldn\'t connect to microphone. Reload the page to try again.');
+      }
+    );
+  });
+
+  $("#stop-recording").click(function(){
+    console.log('close');
+    if(recorder)
+        recorder.disconnect();
+    if(client)
+        client.close();
+  });
+
 });
 
