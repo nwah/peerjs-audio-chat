@@ -12,11 +12,22 @@
         <div class="page-header">
             <h1><span class="glyphicon glyphicon-record"></span> QAGuild Audio Streamer <small>realtime to node</small></h1>
         </div>
+	  <div class="col-md-7"> 
+		<div class="row">
+                <div class="col-md-8">
+                    <form class="form-inline" id='join_call'>
+                      <fieldset>
+                        <input id="userName" type="text" class="form-control mb-2 mr-sm-2" placeholder="Name">
+                        <button type="submit" class="btn btn-success mb-2">Join</button>
+                      </fieldset>
+                    </form>
+                </div>
+        </div>    
+		
         <div class="row">
           <div class="col-md-8">
-            <button id="start" class="btn btn-success">Join Call</button>
-            <button id='start-recording' class="btn btn-warning">Start recording</button>
-            <button id='stop-recording' class="btn btn-primary">Stop recording</button>
+            <button id='start-recording' class="btn btn-warning" disabled='disabled'>Start recording</button>
+            <button id='stop-recording' class="btn btn-primary" disabled='disabled'>Stop recording</button>
           </div>  
         </div>
         <div class="row">
@@ -26,24 +37,35 @@
         </div>
         <div class="row">
           <div class="col-md-10">
+		   <div id="canvas-container">
             <canvas width="520" height="100" id="canvas"></canvas>
+		   </div>	
           </div>  
         </div>
         <div class="row">
-          <div class="col-md-10">
-            <button class='mute btn btn-danger'>Mute</button>
-          </div>  
-        </div>
-        <div class="row">
-          <div class="col-md-8"></div>
           <div class="col-md-4">
+            <button class='mute btn btn-danger' disabled="disabled">Mute</button>
+          </div>
+		  <div class="col-md-4">
+            <div class="col-md-12" id="timer"></div>
+          </div>    		  
+        </div>
+		<div class="row">
+          <div class="col-md-4"></div>
+          <div class="col-md-4"> 
+            <div class="col-md-4" id="sampleRate"></div>
+          </div>
+        </div>		
+      </div>
+	  <div class="col-md-5">
+		<div class="row">
             <div class="wrapper">
                 <div id="display">
                   
                 </div>
             </div>
-          </div>
-        </div>      
+        </div> 
+	  </div>
     </div>
   
 
@@ -57,6 +79,7 @@
   </script>
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/timer.jquery/0.7.0/timer.jquery.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <script src="/peer.min.js"></script>
   <script src="/binary.js"></script>

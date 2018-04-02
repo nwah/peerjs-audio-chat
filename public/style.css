@@ -46,4 +46,22 @@ footer p {
 
 #mute-icon {
   visibility: hidden;
+  color: red;
+  font-weight: bold;
+  padding-top: 15px;
+}
+
+#join_call fieldset {
+	border: 0px;
+	margin: 0px;
+	padding: 0px;
+	margin-bottom: 30px;
+}
+
+#canvas-container{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 1px dashed lightblue;
+    align-content: center;
+    width: 515px;
 }

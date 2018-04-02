@@ -7,7 +7,8 @@ var myStream;
 var peers = {};
 
 const worker = new Worker('worker/resampler-worker.js');
-//init();
+
+init();
 
 // Start everything up
 function init() {
@@ -29,7 +30,7 @@ function init() {
 
 // Connect to PeerJS and get an ID
 function connectToPeerJS(cb) {
-  display('Connecting to PeerJS...');
+  display('Connecting to server ...');
   me = new Peer({ key: API_KEY, 
                   port: 9000,
                   debug: 3, 
@@ -76,7 +77,7 @@ function connectToPeerJS(cb) {
   me.on('call', handleIncomingCall);
   
   me.on('open', function() {
-    display('Connected.');
+    display('Connected ...');
     display('ID: ' + me.id);
     cb && cb(null, me);
   });
@@ -89,7 +90,7 @@ function connectToPeerJS(cb) {
 
 // Add our ID to the list of PeerJS IDs for this call
 function registerIdWithServer() {
-  display('Registering ID with server...');
+  display('Registering ID with server ...');
   $.post('/' + call.id + '/addpeer/' + me.id);
 } 
 
@@ -104,7 +105,7 @@ function callPeers() {
 }
 
 function callPeer(peerId) {
-  display('Calling ' + peerId + '...');
+  display('Calling ' + peerId);
   var peer = getPeer(peerId);
   peer.outgoing = me.call(peerId, myStream);
   
@@ -234,13 +235,18 @@ $(document).ready(function() {
   console.log( "ready!" );
 
   const contextSampleRate = (new AudioContext()).sampleRate;
-  const resampleRate = contextSampleRate;
+  var resampleRate = contextSampleRate;
+  
+  if(resampleRate != 44100){
+	 resampleRate = 44100;
+  }
+  console.log(resampleRate);
   
   var bStream;
   var recorder;
   var recordedStream;
   
-  worker.postMessage({ cmd:"init", from:contextSampleRate, to: resampleRate });
+  worker.postMessage({ cmd:"init", from: contextSampleRate, to: resampleRate });
 
   worker.addEventListener('message', function (e) {
     if (bStream && bStream.writable)
@@ -270,14 +276,10 @@ $(document).ready(function() {
     }
   })
 
-  $('#start').click(function(){
-    init();
-  });
-
   $("#start-recording").click(function(){
     client = new BinaryClient(`wss://${location.hostname}:8080`);
     client.on('open', function () {
-        bStream = client.createStream({ sampleRate: resampleRate, userName: "admin" });
+        bStream = client.createStream({ sampleRate: resampleRate, userName: $("#userName").val() });
     });
 
     navigator.getUserMedia (
@@ -300,6 +302,10 @@ $(document).ready(function() {
         display('Couldn\'t connect to microphone. Reload the page to try again.');
       }
     );
+	
+	$('#timer').timer();
+	$('.mute').removeAttr('disabled');
+	$('#sampleRate').text(contextSampleRate);
   });
 
   $("#stop-recording").click(function(){
@@ -308,7 +314,32 @@ $(document).ready(function() {
         recorder.disconnect();
     if(client)
         client.close();
+	
+	$('#timer').timer('remove');
+	$('.mute').attr('disabled', 'disabled');
   });
+  
+  $('form#join_call').submit(function(e) {
+         e.preventDefault(); 
+         
+        // socket.emit('user join', { userName: $('#userName').val(), id: uuid });
+         
+         $('form#join_call fieldset').attr('disabled', 'disabled');
+         $('#start-recording').removeAttr('disabled');
+         $('#stop-recording').removeAttr('disabled');
+   });
+  
 
+});
+
+$(window).on('beforeunload', function(e){
+     return false;
+});
+
+$(document).keydown(function(e){
+    if( e.which === 68 && e.ctrlKey ){
+        e.preventDefault();
+        $('.mute').click();
+    }     
 });
 
