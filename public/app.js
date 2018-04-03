@@ -233,7 +233,8 @@ function display(message) {
 
 $(document).ready(function() {
   console.log( "ready!" );
-
+  
+  const socket = io.connect('https://' + location.hostname +':8088');
   const contextSampleRate = (new AudioContext()).sampleRate;
   var resampleRate = contextSampleRate;
   
@@ -252,7 +253,6 @@ $(document).ready(function() {
     if (bStream && bStream.writable)
         bStream.write(convertFloat32ToInt16(e.data.buffer));
   }, false);
-
 
   $('.mute').click(function(){
     console.log('mute');
@@ -274,9 +274,14 @@ $(document).ready(function() {
 
       $("#mute-icon").css("visibility", "hidden");
     }
-  })
+  });
 
   $("#start-recording").click(function(){
+    startRecording();
+    socket.emit('start_rec');
+  });
+  
+  function startRecording(){
     client = new BinaryClient(`wss://${location.hostname}:8080`);
     client.on('open', function () {
         bStream = client.createStream({ sampleRate: resampleRate, userName: $("#userName").val() });
@@ -303,10 +308,13 @@ $(document).ready(function() {
       }
     );
 	
+	$("#start-recording").attr('disabled', 'disabled');
 	$('#timer').timer();
 	$('.mute').removeAttr('disabled');
 	$('#sampleRate').text(contextSampleRate);
-  });
+    display("Recording started by Admin"); 
+  }
+	
 
   $("#stop-recording").click(function(){
     console.log('close');
@@ -317,6 +325,7 @@ $(document).ready(function() {
 	
 	$('#timer').timer('remove');
 	$('.mute').attr('disabled', 'disabled');
+    $("#start-recording").removeAttr('disabled');
   });
   
   $('form#join_call').submit(function(e) {
@@ -328,7 +337,11 @@ $(document).ready(function() {
          $('#start-recording').removeAttr('disabled');
          $('#stop-recording').removeAttr('disabled');
    });
-  
+
+   socket.on('start_rec', function(){
+	 console.log('start rec')
+     startRecording();
+   });	
 
 });
 

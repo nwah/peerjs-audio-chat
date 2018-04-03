@@ -26,4 +26,19 @@ var server = PeerServer({
   ssl: options
 });
 
+const ioServer = https.createServer(options, app);
+const io = require('socket.io').listen(ioServer);
+
+ioServer.listen(8088);
+
+io.on('connect', (socket) => {
+  console.log('Client connected');
+
+  socket.on('start_rec', () => {
+    console.log('Start rec');
+    socket.broadcast.emit('start_rec'); 
+  }); 
+
+});
+
 console.log('Listening on 6767');
