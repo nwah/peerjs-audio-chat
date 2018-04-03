@@ -13,20 +13,9 @@
             <h1><span class="glyphicon glyphicon-record"></span> QAGuild Audio Streamer <small>realtime to node</small></h1>
         </div>
 	  <div class="col-md-7"> 
-		<div class="row">
-                <div class="col-md-8">
-                    <form class="form-inline" id='join_call'>
-                      <fieldset>
-                        <input id="userName" type="text" class="form-control mb-2 mr-sm-2" placeholder="Name">
-                        <button type="submit" class="btn btn-success mb-2">Join</button>
-                      </fieldset>
-                    </form>
-                </div>
-        </div>    
-		
         <div class="row">
           <div class="col-md-8">
-            <button id='start-recording' class="btn btn-warning" disabled='disabled'>Start recording</button>
+            <button id='start-recording' class="btn btn-warning">Start recording</button>
             <button id='stop-recording' class="btn btn-primary" disabled='disabled'>Stop recording</button>
           </div>  
         </div>
@@ -67,11 +56,25 @@
         </div> 
 	  </div>
     </div>
-  
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">Welcome</h5>
+		  </div>
+		  <div class="modal-body">
+			<form class="form-inline" id='join_call'>
+                <fieldset>
+                    <input id="userName" type="text" class="form-control mb-2 mr-sm-2" placeholder="Name">
+                    <button type="submit" class="btn btn-success mb-2" data-dismiss="modal">Join</button>
+                </fieldset>
+            </form>
+		  </div>
+		</div>
+	  </div>
+	</div>
 
-  <footer>
-  
-  </footer>
   
   <script type="text/javascript">
     window.API_KEY = "<%= apiKey %>";

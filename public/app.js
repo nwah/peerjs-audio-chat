@@ -233,7 +233,8 @@ function display(message) {
 
 $(document).ready(function() {
   console.log( "ready!" );
-  
+  $('#exampleModal').modal({backdrop: 'static', keyboard: false});	
+
   const socket = io.connect('https://' + location.hostname +':8088');
   const contextSampleRate = (new AudioContext()).sampleRate;
   var resampleRate = contextSampleRate;
@@ -309,6 +310,7 @@ $(document).ready(function() {
     );
 	
 	$("#start-recording").attr('disabled', 'disabled');
+    $("#stop-recording").removeAttr('disabled');
 	$('#timer').timer();
 	$('.mute').removeAttr('disabled');
 	$('#sampleRate').text(contextSampleRate);
