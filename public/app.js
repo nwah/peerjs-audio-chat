@@ -216,7 +216,7 @@ function getPeer(peerId) {
 
 function displayShareMessage() {
   display('Give someone this URL to chat.');
-  display('<input type="text" value="' + location.href + '" readonly>');
+  display('<input id="join_url" type="text" value="' + location.href + '" readonly>');
   
   $('#display input').click(function() {
     this.select();
@@ -343,6 +343,10 @@ $(document).ready(function() {
 
   $('#exampleModal').on('hidden.bs.modal', function (e) {
     socket.emit('user_join', { userName: $("#userName").val(), rate:contextSampleRate, id: me.id });
+
+    if(!$('#join_url').length){
+       $('#users_container').remove();
+    }
   })
 
    socket.on('start_rec', function(){

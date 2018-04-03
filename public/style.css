@@ -82,3 +82,7 @@ footer p {
     border-radius: 5px;
 	visibility: hidden;
 }
+
+#join_url {
+	width: 100%;
+}
