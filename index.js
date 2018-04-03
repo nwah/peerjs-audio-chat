@@ -37,7 +37,16 @@ io.on('connect', (socket) => {
   socket.on('start_rec', () => {
     console.log('Start rec');
     socket.broadcast.emit('start_rec'); 
-  }); 
+  });
+  
+  socket.on('user_join', (data) => {
+    console.log('User joined ' + data['userName']);
+    io.emit('user_join', data); 
+  });
+
+  socket.on('muted', (data) =>{
+    io.emit('muted', data);
+  });
 
 });
 

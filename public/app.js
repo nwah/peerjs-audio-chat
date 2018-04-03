@@ -266,6 +266,8 @@ $(document).ready(function() {
       this.innerHTML = "Unmute";
 
       $("#mute-icon").css("visibility", "visible");
+      socket.emit('muted', { status: true, id: me.id });
+
     } else{
       myStream.getAudioTracks()[0].enabled = true;
       recordedStream.getAudioTracks()[0].enabled = true;
@@ -274,6 +276,7 @@ $(document).ready(function() {
       this.innerHTML = "Mute";
 
       $("#mute-icon").css("visibility", "hidden");
+      socket.emit('muted', { status: false, id: me.id });
     }
   });
 
@@ -309,11 +312,11 @@ $(document).ready(function() {
       }
     );
 	
-	$("#start-recording").attr('disabled', 'disabled');
+	  $("#start-recording").attr('disabled', 'disabled');
     $("#stop-recording").removeAttr('disabled');
-	$('#timer').timer();
-	$('.mute').removeAttr('disabled');
-	$('#sampleRate').text(contextSampleRate);
+	  $('#timer').timer();
+	  $('.mute').removeAttr('disabled');
+	  $('#sampleRate').text(contextSampleRate);
     display("Recording started by Admin"); 
   }
 	
@@ -325,25 +328,44 @@ $(document).ready(function() {
     if(client)
         client.close();
 	
-	$('#timer').timer('remove');
-	$('.mute').attr('disabled', 'disabled');
+	  $('#timer').timer('remove');
+	  $('.mute').attr('disabled', 'disabled');
     $("#start-recording").removeAttr('disabled');
   });
   
   $('form#join_call').submit(function(e) {
          e.preventDefault(); 
-         
-        // socket.emit('user join', { userName: $('#userName').val(), id: uuid });
-         
+        
          $('form#join_call fieldset').attr('disabled', 'disabled');
          $('#start-recording').removeAttr('disabled');
-         $('#stop-recording').removeAttr('disabled');
-   });
+         $('#stop-recording').removeAttr('disabled');         
+  });
+
+  $('#exampleModal').on('hidden.bs.modal', function (e) {
+    socket.emit('user_join', { userName: $("#userName").val(), rate:contextSampleRate, id: me.id });
+  })
 
    socket.on('start_rec', function(){
-	 console.log('start rec')
+	   console.log('start rec')
      startRecording();
-   });	
+   });
+   
+   socket.on('user_join', function(data){
+      $("#users_container").prepend(`<div id='${data['id']}'>
+                                     <span>${data['userName']}</span>
+                                     <span>${data['rate']}</span>
+                                     <span class='user_muted'>Muted</span>
+                                     </div>`);
+   });
+
+   socket.on('muted', (data) =>{
+     if(data['status'] === true){
+        $(`div#${data['id']} .user_muted`).css('visibility', 'visible');
+     } else {
+        $(`div#${data['id']} .user_muted`).css('visibility', 'hidden');
+     } 
+    
+   });
 
 });
 

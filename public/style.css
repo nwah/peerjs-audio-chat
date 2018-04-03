@@ -66,3 +66,19 @@ footer p {
     align-content: center;
     width: 515px;
 }
+
+#users_container {
+	padding-top: 140px;
+}
+
+#users_container div {
+	padding-top: 15px;
+	text-align: right;
+}
+
+.user_muted {
+	background-color: yellow;
+    padding: 5px;
+    border-radius: 5px;
+	visibility: hidden;
+}
