@@ -333,12 +333,19 @@ $(document).ready(function() {
     $("#start-recording").removeAttr('disabled');
   });
   
-  $('form#join_call').submit(function(e) {
-         e.preventDefault(); 
-        
-         $('form#join_call fieldset').attr('disabled', 'disabled');
-         $('#start-recording').removeAttr('disabled');
-         $('#stop-recording').removeAttr('disabled');         
+  $('form#join_call').validator().on('submit', function(e) {
+    if (e.isDefaultPrevented()) {
+      // handle the invalid form...
+    } else {
+      e.preventDefault();
+      $('#exampleModal').modal('hide');
+      $('#start-recording').removeAttr('disabled');
+      $('#stop-recording').removeAttr('disabled');     
+    }     
+  });
+
+  $('#exampleModal').on('shown.bs.modal', function () {
+    $('#userName').focus();
   });
 
   $('#exampleModal').on('hidden.bs.modal', function (e) {
@@ -347,7 +354,7 @@ $(document).ready(function() {
     if(!$('#join_url').length){
        $('#users_container').remove();
     }
-  })
+  });
 
    socket.on('start_rec', function(){
 	   console.log('start rec')

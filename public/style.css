@@ -86,3 +86,7 @@ footer p {
 #join_url {
 	width: 100%;
 }
+
+.has-feedback label~.form-control-feedback {
+  top: 29px;
+}

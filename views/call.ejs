@@ -71,11 +71,19 @@
         <h5 class="modal-title" id="exampleModalLabel">Welcome</h5>
         </div>
         <div class="modal-body">
-        <form class="form-inline" id='join_call'>
-                  <fieldset>
-                      <input id="userName" type="text" class="form-control mb-2 mr-sm-2" placeholder="Name">
-                      <button type="submit" class="btn btn-success mb-2" data-dismiss="modal">Join</button>
-                  </fieldset>
+              <form data-toggle="validator" role="form" id='join_call'>
+                  <div class="form-group has-feedback">
+                      <label for="inputUserName" class="control-label">Username</label>
+                      <div class="input-group">
+                          <span class="input-group-addon">@</span>
+                          <input id="userName" type="text" pattern='^([a-zA-Z0-9_\-]*)$' class="form-control" id="inputUserName" placeholder="John_Doe" required>
+                      </div>
+                      <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                      <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success">Join</button>
+                    </div>
               </form>
         </div>
       </div>
@@ -92,6 +100,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/timer.jquery/0.7.0/timer.jquery.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
   <script src="/peer.min.js"></script>
   <script src="/binary.js"></script>
   <script src="/re-sampler.js"></script>
