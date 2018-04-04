@@ -90,3 +90,7 @@ footer p {
 .has-feedback label~.form-control-feedback {
   top: 29px;
 }
+
+span.userName {
+  font-weight: bold;
+}

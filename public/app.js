@@ -363,9 +363,10 @@ $(document).ready(function() {
    
    socket.on('user_join', function(data){
       $("#users_container").prepend(`<div id='${data['id']}'>
-                                     <span>${data['userName']}</span>
-                                     <span>${data['rate']}</span>
-                                     <span class='user_muted'>Muted</span>
+                                      <span>${data['id']}</span> 
+                                      <span class='userName'>${data['userName']}</span>
+                                      <span>${data['rate']}</span>
+                                      <span class='user_muted'>Muted</span>
                                      </div>`);
    });
 
