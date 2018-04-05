@@ -140,7 +140,7 @@ function addIncomingStream(peer, stream) {
 
 // Create an <audio> element to play the audio stream
 function playStream(stream) {
-  var audio = $('<audio autoplay />').appendTo('body');
+  var audio = $('<video autoplay />').appendTo('#video_container');
   audio[0].src = (URL || webkitURL || mozURL).createObjectURL(stream);
 }
 
@@ -149,7 +149,7 @@ function getLocalAudioStream(cb) {
   display('Trying to access your microphone.');
 
   navigator.getUserMedia (
-    {video: false, audio: true},
+    {video: true, audio: true},
 
     function success(audioStream) {
       display('Microphone is open.');
@@ -259,21 +259,26 @@ $(document).ready(function() {
     console.log('mute');
 
     if(this.id == ''){
-      myStream.getAudioTracks()[0].enabled = false;
-      recordedStream.getAudioTracks()[0].enabled = false;
+      myStream.getAudioTracks().forEach(track => track.enabled = false);
+      if(recordedStream){
+        recordedStream.getAudioTracks()[0].enabled = false;
+      }
       
       this.id = "activated";
-      this.innerHTML = "Unmute";
+      this.innerHTML = "Unmute audio";
 
       $("#mute-icon").css("visibility", "visible");
       socket.emit('muted', { status: true, id: me.id });
 
     } else{
-      myStream.getAudioTracks()[0].enabled = true;
-      recordedStream.getAudioTracks()[0].enabled = true;
+      myStream.getAudioTracks().forEach(track => track.enabled = true);
+
+      if(recordedStream){
+        recordedStream.getAudioTracks()[0].enabled = true;
+      }
       
       this.id = "";
-      this.innerHTML = "Mute";
+      this.innerHTML = "Mute audio";
 
       $("#mute-icon").css("visibility", "hidden");
       socket.emit('muted', { status: false, id: me.id });
@@ -282,9 +287,13 @@ $(document).ready(function() {
 
   $("#start-recording").click(function(){
     startRecording();
-    socket.emit('start_rec');
   });
   
+  $('#record-all').click(function(){
+    startRecording();
+    socket.emit('start_rec');
+  });
+
   function startRecording(){
     client = new BinaryClient(`wss://${location.hostname}:8080`);
     client.on('open', function () {
@@ -353,6 +362,7 @@ $(document).ready(function() {
 
     if(!$('#join_url').length){
        $('#users_container').remove();
+       $('#record-all').remove();
     }
   });
 

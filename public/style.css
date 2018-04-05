@@ -94,3 +94,9 @@ footer p {
 span.userName {
   font-weight: bold;
 }
+
+#video_container video {
+  width: 400px;
+  padding: 15px;
+}
+

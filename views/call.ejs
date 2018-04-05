@@ -12,12 +12,17 @@
         <div class="page-header">
             <h1><span class="glyphicon glyphicon-record"></span> QAGuild Audio Streamer <small>realtime to node</small></h1>
         </div>
+        <div id='video_container'>
+
+        </div>
 	      <div class="col-md-7"> 
         <div class="row">
-          <div class="col-md-8">
-            <button id='start-recording' class="btn btn-warning">Start recording</button>
-            <button id='stop-recording' class="btn btn-primary" disabled='disabled'>Stop recording</button>
-          </div>  
+          <div class="col-md-7">
+            <button class='mute btn btn-danger'>Mute audio</button>
+          </div>
+		      <div class="col-md-4">
+            <div class="col-md-12" id="timer"></div>
+          </div>    		  
         </div>
         <div class="row">
             <div class="col-md-10">
@@ -32,12 +37,11 @@
           </div>  
         </div>
         <div class="row">
-          <div class="col-md-7">
-            <button class='mute btn btn-danger' disabled="disabled">Mute</button>
-          </div>
-		      <div class="col-md-4">
-            <div class="col-md-12" id="timer"></div>
-          </div>    		  
+          <div class="col-md-8">
+            <button id='record-all' class="btn btn-warning">Record all</button>
+            <button id='start-recording' class="btn btn-warning">Start recording</button>
+            <button id='stop-recording' class="btn btn-primary" disabled='disabled'>Stop recording</button>
+          </div>  
         </div>
 		    <div class="row">
           <div class="col-md-7"></div>
@@ -61,8 +65,9 @@
                 </div>
             </div>
         </div> 
-	    </div>
+      </div>
     </div>
+    
 	<!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
