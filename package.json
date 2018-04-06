@@ -4,8 +4,11 @@
   "description": "Audio chat using WebRTC and PeerJS",
   "main": "index.js",
   "dependencies": {
-    "express": "~4.10.2",
     "ejs": "~1.0.0",
+    "express": "~4.10.2",
+    "fs": "0.0.1-security",
+    "peer": "^0.2.8",
+    "socket.io": "^2.1.0",
     "uuid": "~2.0.1"
   },
   "devDependencies": {},

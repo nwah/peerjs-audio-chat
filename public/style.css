@@ -43,3 +43,60 @@ footer p {
   max-width: 600px;
   margin: 0 auto;
 }
+
+#mute-icon {
+  visibility: hidden;
+  color: red;
+  font-weight: bold;
+  padding-top: 15px;
+}
+
+#join_call fieldset {
+	border: 0px;
+	margin: 0px;
+	padding: 0px;
+	margin-bottom: 30px;
+    padding-left: 25%;
+}
+
+#canvas-container{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 1px dashed lightblue;
+    align-content: center;
+    width: 515px;
+}
+
+#users_container {
+	padding-top: 140px;
+}
+
+#users_container div {
+	padding-top: 15px;
+	text-align: right;
+}
+
+.user_muted {
+	background-color: yellow;
+    padding: 5px;
+    border-radius: 5px;
+	visibility: hidden;
+}
+
+#join_url {
+	width: 100%;
+}
+
+.has-feedback label~.form-control-feedback {
+  top: 29px;
+}
+
+span.userName {
+  font-weight: bold;
+}
+
+#video_container video {
+  width: 400px;
+  padding: 15px;
+}
+
